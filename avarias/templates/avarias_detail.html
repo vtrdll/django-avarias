@@ -80,19 +80,17 @@
     }
   </style>
   <div class="avarias-card">
-      <img src="{{ object.photo.url }}" alt="{{ object.model }} - {{ object.brand }}" >
+      <img src="{{ primeira_imagem.imagem.url }}" alt="{{ object.model }} - {{ object.brand }}" >
       <h2>{{ object.brand }} {{ object.model }}</h2>
-      <p><strong>Marca: </strong> {{ object.brand}}</p>
-      <p><strong>Modelo: </strong> {{ object.model }}</p>
-      <p><strong>NF: </strong> {{ object.nf }}</p>
-      <p><strong>Preço: </strong> R$ {{ object.value }}</p>
+      <p><strong>Marca: </strong> {{ object.marca}}</p>
+      <p><strong>Modelo: </strong> {{ object.modelo }}</p>
+      <p><strong>Nota Fiscal: </strong> {{ object.nota_fiscal }}</p>
+      <p><strong>Preço: </strong> R$ {{ object.valor }}</p>
       
       {% if object.descricao%}
         <p><strong>Descrição: </strong>{{ object.descricao }}</p>
       {% endif %} 
-      {% for el in product.products.all %}
-      <img src="{{ el.imagem.url }}" alt="{{ imagem.descricao }}">
-      {% endfor %}
+
   </div>
   {% if user.is_authenticated %}
   <div class="buttons-container">

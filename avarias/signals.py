@@ -8,7 +8,7 @@ from django.db.models import Sum
 def avaria_update_inventory():
     avarias_count = Avaria.objects.all().count()
     avarias_value = Avaria.objects.aggregate(
-        total_value = Sum('value')
+        total_value = Sum('valor')
     )['total_value']
     AvariaInventory.objects.create(
         avarias_count = avarias_count, avarias_value = avarias_value

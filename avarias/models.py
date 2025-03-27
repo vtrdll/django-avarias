@@ -9,25 +9,25 @@ class Brand(models.Model):
     
 
     def __str__(self):
-        return self.name
+        return self.industria
 
 class Avaria(models.Model):
 
-    VOLTAGEM_CHOICES = (('127','127'),('220','220'),('SEM VOLTAGEM','SEM VOLTAGEM'))
+    VOLTAGEM_CHOICES = (('127 VOLTS','127 VOLTS'),('220 VOLTS','220 VOLTS'),('SEM VOLTAGEM','SEM VOLTAGEM'))
 
 
     id = models.AutoField(primary_key=True)
-    model = models.CharField(max_length=200)
-    brand = models.ForeignKey(Brand, on_delete=models.PROTECT, related_name='Avaria_brand')
-    value = models.FloatField(blank=False, null=False)
+    modelo = models.CharField(max_length=200)
+    marca = models.ForeignKey(Brand, on_delete=models.PROTECT, related_name='Avaria_brand')
+    valor = models.FloatField(blank=False, null=False)
     voltagem = models.CharField(max_length=30,choices=VOLTAGEM_CHOICES, default='SEM VOLTAGEM')
-    nf = models.IntegerField(blank=True, null= True)
-    photo = models.ImageField(upload_to='avarias/', blank = True, null=True )
+    nota_fiscal = models.IntegerField(blank=True, null= True)
+    #foto = models.ImageField(upload_to='avarias/', blank = True, null=True )
     descricao = models.TextField(blank = True, null= True)
     
 
     def __str__(self):
-        return self.model
+        return self.modelo
 
 class AvariaInventory(models.Model):
     avarias_count = models.IntegerField()
@@ -39,3 +39,11 @@ class AvariaInventory(models.Model):
 
     def __str__(self):
         return f'{self.avarias_count} - {self.avarias_value}'
+    
+class ImagemReferencia(models.Model):
+    avaria = models.ForeignKey(Avaria, related_name='imagens', on_delete=models.CASCADE)
+    imagem = models.ImageField(upload_to='avarias/')
+    
+
+    def __str__(self):
+        return f"Imagem para a avaria {self.avaria.id}"

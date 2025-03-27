@@ -104,10 +104,16 @@
 
       <a href="{% url 'avarias_detail' avaria.pk %}">
         <div class="avaria-card">
-          <img src="{{ avarias.photo.url }}" alt="{{ avaria.model }} - {{ avaria.brand }}">
-          <h2>{{ avaria.brand }} {{ avaria.model }}</h2>
-          <p>{{ avaria.nf }} - R$ {{ avaria.value }} </p>
-     
+          <img src="{{ avarias.foto.url }}" alt="{{ avaria.modelo }} - {{ avaria.marca}}">
+          <h2>{{ avaria.marca}} {{ avaria.modelo }}</h2>
+          <p>{{ avaria.nota_fiscal }} - R$ {{ avaria.valor }} </p>
+          {% if avaria.primeira_imagem %}
+            <h3>Imagem de Demonstração</h3>
+            <img src="{{ avaria.primeira_imagem.imagem.url }}" alt="Imagem de Demonstração" width="150">
+          {% else %}
+            <p>Não há imagens disponíveis.</p>
+          {% endif %}
+
         </div>
       </a> 
 
@@ -117,3 +123,5 @@
     {% endif %}
   </div>
 {% endblock %}
+
+

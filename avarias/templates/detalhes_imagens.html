@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ avaria.descricao }}</h1>
+  
+
+  <h2>Imagens de Referência</h2>
+  {% for imagem in avaria.imagens.all %}
+    <div>
+      <img src="{{ imagem.imagem.url }}" alt="Imagem da Avaria">
+    </div>
+  {% endfor %}
+{% endblock %}
