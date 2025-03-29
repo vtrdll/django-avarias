@@ -19,7 +19,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.http import HttpResponse
-from avarias.views import AvariasListView, NewAvariasView, AvariaDetailView, AvariaUpdateView, AvariaDeleteView, detalhes_avaria,AvariaImagemCreateView
+from avarias.views import AvariasListView,  AvariaDetailView, AvariaUpdateView, AvariaDeleteView, detalhes_avaria,AvariaImagemCreateView
 from accounts.views import register_view, login_view, logout_view
 
 
@@ -28,7 +28,7 @@ urlpatterns = [
     path('register/', register_view, name='register'),
     path('login/', login_view, name='login_view'),
     path('logout/', logout_view, name='logout'),
-    path('avarias/<int:pk>/', AvariaDetailView.as_view(), name= 'avarias_detail'),
+    path('avarias/<int:pk>/', AvariaDetailView.as_view(), name='avarias_detail'),
     path('avarias/<int:pk>/update/', AvariaUpdateView.as_view(), name= 'avarias_update'),
     path('avarias/', AvariasListView.as_view(), name = 'avarias_list'),
     path('new_avarias/', AvariaImagemCreateView.as_view(), name = 'new_avarias'),

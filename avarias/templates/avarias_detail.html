@@ -80,25 +80,24 @@
     }
   </style>
   <div class="avarias-card">
-      <img src="{{ primeira_imagem.imagem.url }}" alt="{{ object.model }} - {{ object.brand }}" >
-      <h2>{{ object.brand }} {{ object.model }}</h2>
-      <p><strong>Marca: </strong> {{ object.marca}}</p>
-      <p><strong>Modelo: </strong> {{ object.modelo }}</p>
-      <p><strong>Nota Fiscal: </strong> {{ object.nota_fiscal }}</p>
-      <p><strong>Preço: </strong> R$ {{ object.valor }}</p>
-      
-      {% if object.descricao%}
-        <p><strong>Descrição: </strong>{{ object.descricao }}</p>
-      {% endif %} 
+    <a href="{% url 'detalhes_imagens'  avaria.pk %}">
+    <img src="{{ primeira_imagem.imagem.url }}" alt="{{ object.model }} - {{ object.brand }}" >
+    <h2>{{ object.brand }} {{ object.model }}</h2>
+    <p><strong>Marca: </strong> {{ object.marca}}</p>
+    <p><strong>Modelo: </strong> {{ object.modelo }}</p>
+    <p><strong>Nota Fiscal: </strong> {{ object.nota_fiscal }}</p>
+    <p><strong>Preço: </strong> R$ {{ object.valor }}</p>
+    </a>
 
-  </div>
+    {% if object.descricao%}
+      <p><strong>Descrição: </strong>{{ object.descricao }}</p>
+    {% endif %} 
+
+</div>
   {% if user.is_authenticated %}
-  <div class="buttons-container">
-    <a href = "{% url 'avarias_update' pk=object.pk %}" class="btn btn-primary">Editar </a>
-
-    <a href = "{% url 'avarias_delete' pk=object.pk %}" class="btn btn-danger">Deletar </a>
-  </div>
-
-  
+    <div class="buttons-container">
+      <a href="{% url 'avarias_update' pk=object.pk %}" class="btn btn-primary">Editar</a>
+      <a href="{% url 'avarias_delete' pk=object.pk %}" class="btn btn-danger">Deletar</a>
+    </div>
   {% endif %}
 {% endblock %}

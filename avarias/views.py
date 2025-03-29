@@ -8,7 +8,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect
-from .forms import ImagemReferenciaForm
+from .forms import ImagemModelForm
+from django.urls import reverse
 
 from django.forms import modelformset_factory
 # Create your views here.'''
@@ -45,13 +46,7 @@ class AvariasListView(ListView):
             avarias = avarias.filter(model__icontains = search)
         return avarias
 
-@method_decorator(login_required(login_url='login_view'), name='dispatch')
-class NewAvariasView(CreateView):
-    model = Avaria,ImagemReferencia
-    #template_name = "new_avarias.html"
-    form_class = AvariasModelForm
-    
-    success_url = "/avarias/"
+
 
 
 class AvariaDetailView(DetailView):
@@ -93,7 +88,7 @@ class AvariaDeleteView(DeleteView):
 
 
 
-
+@method_decorator(login_required(login_url='login_view'), name='dispatch')
 class AvariaImagemCreateView(CreateView):
     model = Avaria
     form_class = AvariasModelForm
@@ -102,28 +97,44 @@ class AvariaImagemCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Criar um formset para múltiplas imagens
-        ImagemFormSet = modelformset_factory(ImagemReferencia, form=ImagemReferenciaForm, extra=3)  # extra=3 cria 3 formulários em branco
+        ImagemFormSet = modelformset_factory(ImagemReferencia, form=ImagemModelForm, extra=3)  # extra=3 cria 3 formulários em branco
         context['imagem_formset'] = ImagemFormSet(queryset=ImagemReferencia.objects.none())
         return context
 
     def form_valid(self, form):
         # Salva a avaria
         avaria = form.save()
-
+        print('avaria foi salva!')
         # Processa o formset de imagens
-        imagem_formset = modelformset_factory(ImagemReferencia, form=ImagemReferenciaForm)(self.request.POST, self.request.FILES)
-        
-        if imagem_formset.is_valid():
-            for imagem_form in imagem_formset:
-                imagem = imagem_form.save(commit=False)
-                imagem.avaria = avaria  # Associa a imagem à avaria
-                imagem.save()
+        imagem_formset = modelformset_factory(ImagemReferencia, form=ImagemModelForm)(self.request.POST, self.request.FILES)
 
+        if imagem_formset.is_valid():
+            print(f"Formulários válidos: {len(imagem_formset.cleaned_data)}")
+            for imagem_form in imagem_formset:
+                if imagem_form.is_valid():
+                    print(f"Formulário válido: {imagem_form.cleaned_data}")
+                    imagem = imagem_form.save(commit=False)
+                    imagem.avaria = avaria  # Associa a imagem à avaria
+                    imagem.save()
+                    print(f"Imagem {imagem.imagem.name} salva com sucesso!")  # Mensagem de depuração
+                else:
+                    print(f"Erros no formulário: {imagem_form.errors}")
+
+            
+
+        # Atribui a avaria salva a self.object
+        
+        else:
+            print("Formset de imagens não é válido!")
+            print(imagem_formset.errors)  # Exibe os erros de validação
+            
+        self.object = avaria
+        # Redireciona para a URL de sucesso usando o ID da avaria
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse('detalhes_avaria', kwargs={'avaria_id': self.object.id})
-
+        # Usa o reverse para gerar a URL correta com o ID da avaria
+        return reverse('avarias_detail', kwargs={'pk': self.object.id})
 
 
 def detalhes_avaria(request, avaria_id):

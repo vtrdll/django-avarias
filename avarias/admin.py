@@ -7,7 +7,7 @@ from avarias.models import Avaria, Brand,ImagemReferencia
 
 class ImagemReferenciaInline(admin.TabularInline):
     model = ImagemReferencia
-    extra = 1  # Número de formulários extras
+    extra = 3 # Número de formulários extras
 
 admin.site.register(ImagemReferencia)
 

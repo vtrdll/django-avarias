@@ -1,13 +1,140 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>{{ avaria.descricao }}</h1>
-  
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrossel com JavaScript</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-  <h2>Imagens de Referência</h2>
-  {% for imagem in avaria.imagens.all %}
-    <div>
-      <img src="{{ imagem.imagem.url }}" alt="Imagem da Avaria">
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      .carrossel-container {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        overflow: hidden;
+        margin: auto;
+      }
+
+      .carrossel {
+        display: flex;
+        transition: transform 0.5s ease;
+      }
+
+      .imagem {
+        min-width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .imagem img {
+        width: 100%;
+        height: auto;
+      }
+
+      .navegacao {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        z-index: 1;
+      }
+
+      .prev, .next {
+        cursor: pointer;
+        font-size: 30px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      .prev {
+        left: 10px;
+      }
+
+      .next {
+        right: 10px;
+      }
+
+      .prev:hover, .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="carrossel-container">
+      <div class="carrossel" id="carrossel">
+        <div class="imagem imagem1">
+          <img src="{{ avaria.imagens.all.0.imagem.url }}" alt="Imagem 1" />
+        </div>
+        <div class="imagem imagem2">
+          <img src="{{ avaria.imagens.all.1.imagem.url }}" alt="Imagem 2" />
+        </div>
+        <div class="imagem imagem3">
+          <img src="{{ avaria.imagens.all.2.imagem.url }}" alt="Imagem 3" />
+        </div>
+      </div>
+
+      <div class="navegacao">
+        <div class="prev" id="prev">&#10094;</div>
+        <div class="next" id="next">&#10095;</div>
+      </div>
     </div>
-  {% endfor %}
+
+    <script>
+      // Seleciona os elementos
+      const carrossel = document.getElementById('carrossel');
+      const prevButton = document.getElementById('prev');
+      const nextButton = document.getElementById('next');
+
+      let currentIndex = 0;
+      const totalImages = carrossel.children.length;
+
+      // Função para atualizar o carrossel com base no índice atual
+      function updateCarrossel() {
+        const offset = -currentIndex * 100;
+        carrossel.style.transform = `translateX(${offset}%)`;
+      }
+
+      // Função para ir para a imagem anterior
+      prevButton.addEventListener('click', () => {
+        if (currentIndex > 0) {
+          currentIndex--;
+        } else {
+          currentIndex = totalImages - 1; // Volta para a última imagem
+        }
+        updateCarrossel();
+      });
+
+      // Função para ir para a próxima imagem
+      nextButton.addEventListener('click', () => {
+        if (currentIndex < totalImages - 1) {
+          currentIndex++;
+        } else {
+          currentIndex = 0; // Volta para a primeira imagem
+        }
+        updateCarrossel();
+      });
+    </script>
+  </body>
+</html>
 {% endblock %}

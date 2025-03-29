@@ -17,8 +17,7 @@ class AvariasModelForm(forms.ModelForm):
 
 
 
-class ImagemReferenciaForm(forms.ModelForm):
-    
+class ImagemModelForm(forms.ModelForm):
     class Meta:
         model = ImagemReferencia
         fields = ['imagem']

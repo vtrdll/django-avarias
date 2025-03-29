@@ -7,23 +7,21 @@
     
     <h2>Informações da Avaria</h2>
     {{ form.as_p }}
-
-    <h2>Adicionar Imagens para a Avaria: {{ avaria.descricao }}</h2> <!-- Aqui você exibe a descrição da avaria -->
+    {{ imagem_formset.management_form }}
+    <h2>Adicionar Imagens para a Avaria</h2>
 
     {% for imagem_form in imagem_formset %}
       <div class="form-row">
         {% if forloop.counter == imagem_formset.total_form_count %}
-          <!-- Para o último formulário de imagem, exibe "LOCAL DA AVARIA" -->
           <h3>LOCAL DA AVARIA</h3>
         {% else %}
-          <!-- Para os demais, exibe "IMAGEM AVARIA" com o contador -->
           <h3>IMAGEM AVARIA - {{ forloop.counter }}</h3>
         {% endif %}
-        
+
         {{ imagem_form.as_p }}
       </div>
     {% endfor %}
-    
+
     <button type="submit">Salvar</button>
   </form>
-{% endblock %}
+{% endblock %}zzz
