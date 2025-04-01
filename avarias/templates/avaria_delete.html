@@ -11,7 +11,7 @@
 
     .btn {
       display: inline-block;
-      background-color: #0096c7;
+      background-color: rgb(44, 44, 44);
       color: #fff;
       border: none;
       padding: 10px 20px;
@@ -23,7 +23,7 @@
     }
 
     .btn:hover {
-      background-color: #108eb8;
+      background-color: rgb(44, 44, 44);
     }
 
     .btn-danger {
@@ -47,14 +47,14 @@
   </style>
   <div class="card">
     <div class="card-header">
-      <h1 class="card-title">Deletar Carro</h1>
+      <h1 class="card-title">Deletar Produto</h1>
     </div>
     <div class="card-body">
-      <p>Tem certeza que deseja deletar o carro <strong>{{ object.marca }} {{ object.modelo }} {{ object.nota_fiscal }}</strong>?</p>
+      <p>Tem certeza que deseja deletar o produto <strong>{{ object.marca }} {{ object.modelo }} {{ object.nota_fiscal }}</strong>?</p>
       <form method="post">
         {% csrf_token %}
         <div class="buttons-container">
-          <button type="submit" class="btn btn-danger">Deletar Carro</button>
+          <button type="submit" class="btn btn-danger">Deletar Produto</button>
           <a href="{% url 'avarias_detail'  avaria.pk %}" class="btn btn-secondary">Cancelar</a>
         </div>
       </form>

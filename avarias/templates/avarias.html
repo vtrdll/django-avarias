@@ -78,7 +78,7 @@
     }
 
     button[type="submit"] {
-        background-color: #0096c7;
+        background-color:rgb(44, 44, 44);
         color: #fff;
         border: none;
         padding: 10px 20px;
@@ -89,7 +89,7 @@
     }
 
     button[type="submit"]:hover {
-        background-color: #108eb8;
+        background-color: rgb(44, 44, 44);
     }
   </style>
 
@@ -104,7 +104,7 @@
 
       <a href="{% url 'avarias_detail' avaria.pk %}">
         <div class="avaria-card">
-          {% if avaria.imagem %}
+          {% if avaria.primeira_imagem.imagem %}
             <img src="{{ avaria.primeira_imagem.imagem.url }}" alt="{{ avaria.modelo }} - {{ avaria.marca}}" width="150">
           {% else %}
             <p>Não há imagens disponíveis.</p>

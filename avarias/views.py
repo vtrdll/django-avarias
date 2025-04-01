@@ -16,7 +16,7 @@ from django.forms import modelformset_factory
 # Create your views here.'''
 
 
-
+@method_decorator(login_required(login_url='login_view'), name='dispatch')
 class AvariaImagemCreateView(CreateView):
     model = Avaria
     form_class = AvariasModelForm
@@ -25,17 +25,19 @@ class AvariaImagemCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Criar um formset para múltiplas imagens
-        ImagemFormSet = modelformset_factory(ImagemReferencia, form=ImagemModelForm, extra=3)  # extra=3 cria 3 formulários em branco
+        ImagemFormSet = modelformset_factory(ImagemReferencia, form=ImagemModelForm, extra=3)  
         context['imagem_formset'] = ImagemFormSet(queryset=ImagemReferencia.objects.none())
         return context
 
     def form_valid(self, form):
         # Salva a avaria
-        
         avaria = form.save()
         # Processa o formset de imagens
         imagem_formset = modelformset_factory(ImagemReferencia, form=ImagemModelForm)( self.request.POST, self.request.FILES)
         if imagem_formset.is_valid():
+            if len(imagem_formset) != 3:
+                form.add_error(None, "Você deve preencher todos os campos IMAGENS.")
+                return self.form_invalid(form)
             for imagem_form in imagem_formset:
                 if imagem_form.is_valid():
                     imagem = imagem_form.save(commit=False)
@@ -43,8 +45,6 @@ class AvariaImagemCreateView(CreateView):
                     imagem.save()      
 
         # Atribui a avaria salva a self.object
-        
-            
         self.object = avaria
         # Redireciona para a URL de sucesso usando o ID da avaria
         return HttpResponseRedirect(self.get_success_url())
@@ -53,6 +53,7 @@ class AvariaImagemCreateView(CreateView):
         # Usa o reverse para gerar a URL correta com o ID da avaria
         return reverse('avarias_detail', kwargs={'pk': self.object.id})
     
+  
 class AvariasView(View):
     
     def get(self, request):

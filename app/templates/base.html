@@ -27,7 +27,7 @@
     }
 
     nav {
-        background-color: #0096c7;
+        background-color: rgb(44, 44, 44);
         color: #fff;
         height: 50px;
         display: flex;
@@ -55,7 +55,7 @@
     }
 
     nav ul li a:hover {
-        background-color: #32bbe8;
+        background-color: #383131;
     }
 
     nav ul li.active a {
@@ -85,9 +85,10 @@
           <li><a href="{% url 'login_view' %}">Login</a></li>
           
         {% endif %}
-        {% if user.is_authenticated %}
 
-        <li>Olá, {{ user.username }}</li>
+        
+        {% if user.is_authenticated %}
+        
         <li><a href="{% url 'logout' %}">Sair</a></li>
 
         {% endif %}
@@ -105,7 +106,7 @@
   </main>
 
   <footer>
-    <p>&copy; 2025 </p>
+    <p>&copy; 2025 contato: 41 9 9999-9999 - João Vitor </p>
   </footer>
 </body>
 </html>
