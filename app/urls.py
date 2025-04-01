@@ -34,6 +34,7 @@ urlpatterns = [
     path('new_avarias/', AvariaImagemCreateView.as_view(), name = 'new_avarias'),
     path('avarias/<int:pk>/delete/', AvariaDeleteView.as_view(), name= 'avarias_delete'),
     path('avarias/<int:avaria_id>/detalhes/', detalhes_avaria, name='detalhes_imagens'),
+    
 
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

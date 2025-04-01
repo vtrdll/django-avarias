@@ -104,7 +104,7 @@
 
       <a href="{% url 'avarias_detail' avaria.pk %}">
         <div class="avaria-card">
-          {% if avaria.primeira_imagem %}
+          {% if avaria.imagem %}
             <img src="{{ avaria.primeira_imagem.imagem.url }}" alt="{{ avaria.modelo }} - {{ avaria.marca}}" width="150">
           {% else %}
             <p>Não há imagens disponíveis.</p>

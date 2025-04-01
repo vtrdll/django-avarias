@@ -78,10 +78,20 @@
     a {
       text-decoration: none !important;
     }
+    footer{
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+    }
   </style>
   <div class="avarias-card">
     <a href="{% url 'detalhes_imagens'  avaria.pk %}">
-    <img src="{{ primeira_imagem.imagem.url }}" alt="{{ object.model }} - {{ object.brand }}" >
+    {% if primeira_imagem.imagem %}
+      <img src="{{ primeira_imagem.imagem.url }}" alt="{{ object.model }} - {{ object.brand }}" >
+    {% else %}
+      <p>sem foto</p>
+    {% endif %}
     <h2>{{ object.brand }} {{ object.model }}</h2>
     <p><strong>Marca: </strong> {{ object.marca}}</p>
     <p><strong>Modelo: </strong> {{ object.modelo }}</p>
@@ -99,5 +109,6 @@
       <a href="{% url 'avarias_update' pk=object.pk %}" class="btn btn-primary">Editar</a>
       <a href="{% url 'avarias_delete' pk=object.pk %}" class="btn btn-danger">Deletar</a>
     </div>
+
   {% endif %}
 {% endblock %}

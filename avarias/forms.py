@@ -22,3 +22,8 @@ class ImagemModelForm(forms.ModelForm):
         model = ImagemReferencia
         fields = ['imagem']
 
+    def clean_value(self):
+        value = getattr(ImagemModelForm, 'imagem')
+        if value is None:
+            self.add_error('Preencha todas as imagens')
+        return value
