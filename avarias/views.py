@@ -24,15 +24,15 @@ class AvariaImagemCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Criar um formset para múltiplas imagens
+       
         ImagemFormSet = modelformset_factory(ImagemReferencia, form=ImagemModelForm, extra=3)  
         context['imagem_formset'] = ImagemFormSet(queryset=ImagemReferencia.objects.none())
         return context
 
     def form_valid(self, form):
-        # Salva a avaria
+       
         avaria = form.save()
-        # Processa o formset de imagens
+       
         imagem_formset = modelformset_factory(ImagemReferencia, form=ImagemModelForm)( self.request.POST, self.request.FILES)
         if imagem_formset.is_valid():
             if len(imagem_formset) != 3:
@@ -41,16 +41,13 @@ class AvariaImagemCreateView(CreateView):
             for imagem_form in imagem_formset:
                 if imagem_form.is_valid():
                     imagem = imagem_form.save(commit=False)
-                    imagem.avaria = avaria  # Associa a imagem à avaria
-                    imagem.save()      
-
-        # Atribui a avaria salva a self.object
+                    imagem.avaria = avaria  
+                    imagem.save()     
         self.object = avaria
-        # Redireciona para a URL de sucesso usando o ID da avaria
         return HttpResponseRedirect(self.get_success_url())
-
+    
     def get_success_url(self):
-        # Usa o reverse para gerar a URL correta com o ID da avaria
+        
         return reverse('avarias_detail', kwargs={'pk': self.object.id})
     
   
@@ -73,9 +70,9 @@ class AvariasListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Para cada avaria, buscamos a primeira imagem
+        
         for avaria in context['avarias']:
-            avaria.primeira_imagem = avaria.imagens.first()  # Atribui a primeira imagem à avaria
+            avaria.primeira_imagem = avaria.imagens.first() 
 
         return context
     def get_queryset(self):
@@ -97,8 +94,8 @@ class AvariaDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         avaria = self.get_object()
         
-        # Pegar a primeira imagem relacionada à avaria (se houver)
-        primeira_imagem = avaria.imagens.first()  # 'imagens' é o campo relacionado no modelo Avaria
+        
+        primeira_imagem = avaria.imagens.first()  
         
         context['primeira_imagem'] = primeira_imagem
         return context
@@ -114,11 +111,11 @@ class AvariaUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        # Obtém as imagens associadas à avaria
+        
         avaria = self.get_object()
         imagens = avaria.imagens.all()
         
-        # Formset para o modelo ImagemReferencia
+        
         ImagemReferenciaFormSet = modelformset_factory(ImagemReferencia, form=ImagemModelForm, extra=0)
         formset = ImagemReferenciaFormSet(queryset=imagens)
         
@@ -126,11 +123,11 @@ class AvariaUpdateView(UpdateView):
         return context
 
     def form_valid(self, form):
-        # Salva os dados da Avaria
+        
         avaria = form.save(commit=False)
         avaria.save()
         
-        # Atualiza as imagens associadas
+        
         formset = modelformset_factory(ImagemReferencia, form=ImagemModelForm,)
         imagens_formset = formset(self.request.POST, self.request.FILES, queryset=avaria.imagens.all())
         

@@ -22,7 +22,6 @@ class Avaria(models.Model):
     valor = models.FloatField(blank=False, null=False)
     voltagem = models.CharField(max_length=30,choices=VOLTAGEM_CHOICES, default='SEM VOLTAGEM')
     nota_fiscal = models.IntegerField(blank=True, null= True)
-    #foto = models.ImageField(upload_to='avarias/', blank = True, null=True )
     descricao = models.TextField(blank = True, null= True)
     
 
