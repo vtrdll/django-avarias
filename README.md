@@ -6,11 +6,13 @@ PARA UTILIZAR
 Abra seu terminal e rode:
 
 git clone https://github.com/vtrdll/django-avarias.git
+
 cd django-avarias
 
 Crie e ative um ambiente virtual: 
 
 python -m venv venv
+
 venv\Scripts\activate
 
 Instale as dependencias:
